@@ -1,6 +1,8 @@
 
 #include "../lib/sensors/MPU9250-master/MPU9250.h"
-#include<Arduino.h>
+#include <Arduino.h>
+
+
 MPU9250 mpu;
 
 void setup() {
