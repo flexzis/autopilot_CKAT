@@ -23,12 +23,12 @@ void setup() {
 
 void loop()
  {
-    std::vector<double> angles=mpu.get_angles();
+    mpu.get_angles();
     Serial.print("Yaw, Pitch, Roll: ");
-    Serial.print(angles[0], 2);
+    Serial.print(mpu.yaw(), 2);
     Serial.print(", ");
-    Serial.print(angles[1], 2);
+     Serial.print(mpu.pitch(), 2);
     Serial.print(", ");
-    Serial.println(angles[2], 2);
+    Serial.println(mpu.roll(), 2);
     
 }
