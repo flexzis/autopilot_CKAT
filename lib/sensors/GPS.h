@@ -13,7 +13,7 @@ class GPS
         TinyGPSPlus gps;
      }
 
-     void begin()
+     void GPS_begin()
      {
          ass.begin(115200);
            while  (!gps.altitude.isUpdated())
@@ -35,7 +35,7 @@ class GPS
      }
 
 
-     double coord_X()
+     double coord_x()
      {
         return(double(gps.location.lat())*63995);
      }
