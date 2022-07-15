@@ -23,7 +23,6 @@ class GPS
                     gps.encode(ass.read());
                 }
              } 
-         
      }
      
      void earn_data_from_sat()
@@ -49,7 +48,7 @@ class GPS
      {
         return(double(gps.location.lat()));
      }
-
+     
     private:
     SoftwareSerial ass;
     TinyGPSPlus gps;   

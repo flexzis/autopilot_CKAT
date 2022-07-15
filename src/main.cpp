@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 #include <Servo.h>
-//#include "PID.h"
+#include "PID.h"
 #include "Accelerometer.h"
 
 MPU mpu;
@@ -28,14 +28,13 @@ void setup()
         }
     }
     mpu.callibrate();
-    
 }
 
 void loop()
 {
     mpu.update();
     double cur_roll = mpu.get_roll();
-
+    
     int ailer_err = int(roll_pid.calculate(cur_roll, des_roll));
     aileron_l.writeMicroseconds(1500 - ailer_err);
     aileron_r.writeMicroseconds(1500 - ailer_err);
