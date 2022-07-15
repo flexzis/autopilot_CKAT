@@ -25,7 +25,7 @@ void setup()
         {
             Serial.println("MPU connection failed. Please check your connection with `connection_check` example.");
             delay(5000);
-        }
+        }+
     }
     mpu.callibrate();
 }
