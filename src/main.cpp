@@ -20,6 +20,7 @@ void loop()
   while (SerialGPS.available() > 0) 
   {
     gps.encode(SerialGPS.read());
+
   }
     Serial.println(String(gps.location.lat(),6) + " " + String(gps.location.lng(), 6)+" "+String(gps.altitude.meters(), 1));    
     double our_x=double(gps.location.lat());
