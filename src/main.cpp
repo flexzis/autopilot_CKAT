@@ -1,43 +1,36 @@
-#include <Arduino.h>
-#include <SoftwareSerial.h>
-#include <Servo.h>
-//#include "PID.h"
-#include "Accelerometer.h"
+#include <TinyGPSPlus.h>
+#include<vector>
+#include <HardwareSerial.h>
 
-MPU mpu;
-Servo aileron_l;
-Servo aileron_r;
-double des_roll = 0;
-PID roll_pid(5., 0, 0, 1200, 2000);
+double target_coordinates[3]={55.614714, 38.103408, 137};
 
-void setup()
-{
-    aileron_l.attach(5);
-    aileron_r.attach(4);
 
-    Serial.begin(115200);
-    Wire.begin();
-    delay(2000);
+HardwareSerial SerialGPS(2);
+TinyGPSPlus gps;
 
-    if (!mpu.setup())
-    {
-        while (1)
-        {
-            Serial.println("MPU connection failed. Please check your connection with `connection_check` example.");
-            delay(5000);
-        }+
-    }
-    mpu.callibrate();
-    
+void setup() {
+  Serial.begin(115200);
+  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
+
+
 }
 
-void loop()
+void loop() 
 {
-    mpu.update();
-    double cur_roll = mpu.get_roll();
-
-    int ailer_err = int(roll_pid.calculate(cur_roll, des_roll));
-    aileron_l.writeMicroseconds(1500 - ailer_err);
-    aileron_r.writeMicroseconds(1500 - ailer_err);
-    Serial.println(mpu.get_roll(), 2);
+  while (SerialGPS.available() > 0) 
+  {
+    gps.encode(SerialGPS.read());
+  }
+    Serial.println(String(gps.location.lat(),6) + " " + String(gps.location.lng(), 6)+" "+String(gps.altitude.meters(), 1));    
+    double our_x=double(gps.location.lat());
+    double our_y=double(gps.location.lng());
+    double our_z=gps.altitude.meters();
+    double our_coordinates[3]={our_x,our_y,our_z };
+    double x=target_coordinates[0]-our_coordinates[0];
+    double y=target_coordinates[1]-our_coordinates[1];
+    double z=target_coordinates[2]-our_coordinates[2];
+    double vector_to_target[3]={x,y ,z };
+ // Serial.println(String(vector_to_target[0],6) + " " + String(vector_to_target[1],6)+" "+String(vector_to_target[2],1));
+  
+delay(500);
 }

@@ -1,48 +1,37 @@
 
 #include <Arduino.h>
-#include "SPI.h"
-#include <SoftwareSerial.h>
+#include <HardwareSerial.h>
 #include <TinyGPSPlus.h>
 
 class GPS
 {
     public:
-     GPS()
-     {
-        SoftwareSerial ass(16,17,false,256);//16,17, false, 256
-        TinyGPSPlus gps;
-     }
+     GPS():SerialGPS(2),gps()
+     {}
 
-     void GPS_begin()
-     {
-         ass.begin(115200);
-           while  (!gps.altitude.isUpdated())
-            {
-                while (ass.available() > 0)
-                {
-                    gps.encode(ass.read());
-                }
-             } 
-         
-     }
+    void GPS_setup() 
+    {
+      SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
+    }
+
      
      void earn_data_from_sat()
      {
-        while (ass.available() > 0)
-        {
-            gps.encode(ass.read());
-        }
+      while (SerialGPS.available() > 0) 
+            {
+               gps.encode(SerialGPS.read());
+            }
      }
 
 
-     double coord_x()
+     double coord_x_in_grad()
      {
-        return(double(gps.location.lat())*63995);
+        return(double(gps.location.lat()));
      }
 
-     double coord_y()
+     double coord_y_in_grad()
      {
-        return(double(gps.location.lng())*111370);
+        return(double(gps.location.lng()));
      }
 
      double coord_z()
@@ -51,6 +40,6 @@ class GPS
      }
 
     private:
-    SoftwareSerial ass;
+    HardwareSerial SerialGPS;
     TinyGPSPlus gps;   
 };
