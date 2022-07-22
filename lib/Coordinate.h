@@ -1,7 +1,8 @@
 #pragma once
 #include <cmath>
-#include<vector>
+#include <vector>
 #define My_Pi 3.14159265358979323846
+
 class Coordinate
 {
 public:
@@ -51,7 +52,7 @@ Coordinate Coordinate::point_on_track(const std::vector<Coordinate>& _Coordinate
     double remain_distance = distance;
     for (int i = 0; i < _Coordinates.size() - 1; i++)
     {
-        double l =distance_between_two_points(_Coordinates[i+1], _Coordinates[i]);
+        double l = distance_between_two_points(_Coordinates[i + 1], _Coordinates[i]);
         if (remain_distance-l < 0)
         {
             Coordinate point;
